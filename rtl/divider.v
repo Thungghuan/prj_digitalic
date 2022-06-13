@@ -1,40 +1,59 @@
-module divider(dividend, divisor, quotient);
+module divider_step(
+    clk,
+    dividend,
+    divisor,
+    quotient_last,
 
-parameter DATAWIDTH = 24;
+    quotient,
+    remainder
+);
 
-input [DATAWIDTH - 1:0] dividend;
-input [DATAWIDTH - 1:0] divisor;
+parameter M = 26; // bit number of dividend
+parameter N = 14; // bit number of divisor
 
-output reg [DATAWIDTH - 1:0] quotient;
+input clk;
+input [N:0] dividend;
+input [N - 1:0] divisor;
+input [M - 1:0] quotient_last;
 
-reg [DATAWIDTH - 1:0] tempa;
-reg [DATAWIDTH - 1:0] tempb;
-reg [2 * DATAWIDTH - 1:0] temp_a;
-reg [2 * DATAWIDTH - 1:0] temp_b;
+output reg [M - 1:0] quotient;
+output reg [N - 1:0] remainder;
 
-integer i;
-
-always @(dividend or divisor)
-begin
-    tempa <= dividend;
-    tempb <= divisor;
-end
-
-always @(tempa or tempb)
-begin
-    temp_a = {{DATAWIDTH{1'b0}}, tempa};
-    temp_b = {tempb, {DATAWIDTH{1'b0}}};
-
-    for(i = 0; i < DATAWIDTH; i = i + 1)
-    begin
-        temp_a = temp_a << 1;
-        if (temp_a >= temp_b)
-            temp_a = temp_a - temp_b + 1'b1;
-        else
-            temp_a = temp_a;
+always @(posedge clk) begin
+    // quotient to be 1
+    if (dividend >= {1'b0, divisor}) begin
+        quotient <= (quotient_last << 1) + 1'b1;
+        remainder <= dividend - {1'b0, divisor};
     end
-
-    quotient = temp_a[DATAWIDTH - 1:0];
+    // quotient to be 0
+    else begin
+        quotient <= quotient_last << 1;
+        remainder <= dividend;
+    end
 end
+
+endmodule
+
+module divider(clk, dividend, divisor, quotient);
+
+parameter M = 26; // bit number of dividend
+parameter N = 14; // bit number of divisor
+
+input clk;
+input [M - 1:0] dividend;
+input [N - 1:0] divisor;
+output [M - 1:0] quotient;
+
+wire [N - 1:0] remainder;
+
+divider_step step0(
+    .clk(clk),
+    .dividend(dividend[M - 1:M - N - 1]),
+    .divisor(divisor),
+    .quotient_last({M{1'b0}}),
+
+    .quotient(quotient),
+    .remainder(remainder)
+);
 
 endmodule
