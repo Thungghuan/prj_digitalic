@@ -1,4 +1,4 @@
-module module_digitalic(a, b, c, out);
+module module_top(a, b, c, out);
 
 input [11:0] a;
 input [11:0] b;

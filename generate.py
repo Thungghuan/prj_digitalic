@@ -2,7 +2,7 @@ import math
 
 INPUT_PORT = 'sin_in'
 OUTPUT_PORT = 'sin_out'
-FILENAME = 'rtl/module_sin.v'
+FILENAME = 'rtl/sin.v'
 PRECISION = 12
 
 

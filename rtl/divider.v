@@ -1,4 +1,4 @@
-module module_divider(dividend, divisor, quotient);
+module divider(dividend, divisor, quotient);
 
 parameter DATAWIDTH = 24;
 

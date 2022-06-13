@@ -1,4 +1,4 @@
-module module_sin(sin_in, sin_out);
+module sin(sin_in, sin_out);
 
 input [9:0] sin_in;
 output [13:0] sin_out;
