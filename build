@@ -1,0 +1,2 @@
+iverilog -o ./output/a.out rtl/multiplier.v rtl/tb_multiplier.v
+vvp -n output/a.out
