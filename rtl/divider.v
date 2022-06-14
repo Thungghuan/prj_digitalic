@@ -39,9 +39,6 @@ always @(posedge clk) begin
             end
         end
 
-        // divisor_t = divisor_t >> 1;
-        // count = count - 1;
-
         if (!overflow) begin
             divisor_t = divisor_t >> 1;
             count = count - 1;
