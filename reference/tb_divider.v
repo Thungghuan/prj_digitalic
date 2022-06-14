@@ -12,13 +12,13 @@ always begin
 end
 
 reg [11:0] a = 12'b0111_1111_1111;
-reg [13:0] b = 14'b00_0011_0000_0011;
+reg [13:0] b = 14'b00_0000_0000_0001;
 
 wire [M - 1:0] dividend = {a, {14{1'b0}}};
 wire [N - 1:0] divisor = b;
 wire [M - 1:0] quotient;
 
-divider d (.clk(clk), .dividend(dividend), .divisor(divisor), .quotient(quotient));
+mod_divider d (.clk(clk), .dividend(dividend), .divisor(divisor), .merchant(quotient));
 
 initial begin
     $dumpfile("./output/wave.vcd");
