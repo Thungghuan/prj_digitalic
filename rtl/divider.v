@@ -31,17 +31,26 @@ reg overflow = 0;
 always @(posedge clk) begin
     divisor_t = {1'b0, divisor};
     count = 0;
+    overflow = 0;
 
     // quotient to be 1
     if (dividend >= divisor) begin
-        while (dividend >= divisor_t) begin
-        // while (dividend - divisor_t >= 1) begin
+        while (dividend >= divisor_t && !overflow) begin
             count = count + 1;
             divisor_t = divisor_t << 1;
+
+            if (divisor_t[N] && dividend[N]) begin
+                overflow = 1;
+            end
         end
 
-        divisor_t = divisor_t >> 1;
-        count = count - 1;
+        // divisor_t = divisor_t >> 1;
+        // count = count - 1;
+
+        if (!overflow) begin
+            divisor_t = divisor_t >> 1;
+            count = count - 1;
+        end
 
         quotient <= (quotient_last << 1) + (1 << count);
         remainder <= dividend - divisor_t;
