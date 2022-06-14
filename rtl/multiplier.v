@@ -71,7 +71,7 @@ generate
         multiplier_step step_i(
             .clk(clk),
             .multi1(multi1_shift[i - 1]),
-            .multi2(us_multi2[i]),
+            .multi2(i < N ? us_multi2[i] : 1'b0),
             .accu_last(accu[i - 1]),
 
             .multi1_shift(multi1_shift[i]),
