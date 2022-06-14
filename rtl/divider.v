@@ -11,10 +11,10 @@ module divider_step(
 parameter M = 26; // bit number of dividend
 parameter N = 14; // bit number of divisor
 
-input clk;
-input [N:0] dividend;
-input [N - 1:0] divisor;
-input [M - 1:0] quotient_last;
+input wire clk;
+input wire [N:0] dividend;
+input wire [N - 1:0] divisor;
+input wire [M - 1:0] quotient_last;
 
 output reg [M - 1:0] quotient;
 output reg [N - 1:0] remainder;
@@ -82,7 +82,7 @@ divider_step step_0(
 
 genvar i;
 generate
-    for (i = 1; i <= M - N - 1; i = i + 1) begin
+    for (i = 1; i <= M - N - 1; i = i + 1) begin : divide_step
         divider_step step_i 
         (
             .clk(clk),
