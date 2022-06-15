@@ -12,8 +12,7 @@ always begin
 end
 
 reg [M - 1:0] multi1 = 26'b00_0000_0101_0000_1010_0000_0001;
-// reg [N - 1:0] multi2 = 14'b11_1111_1111_1100;
-reg [N - 1:0] multi2 = 14'b11_1111_1101_1100;
+reg [N - 1:0] multi2 = 14'b11_0000_0010_0100;
 wire [M + N - 1:0] product;
 
 multiplier m (.clk(clk), .multi1(multi1), .multi2(multi2), .product(product));

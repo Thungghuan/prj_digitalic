@@ -52,8 +52,8 @@ assign sign = multi2[NS - 1];
 
 wire [N - 1:0] us_multi2 = sign ? ~multi2[N - 1:0] + 1'b1 : multi2[N - 1:0];
 
-wire [M + N - 1:0] accu [M - 1:0];
-wire [M + N - 1:0] multi1_shift [M - 1:0];
+wire [M + N - 1:0] accu [N - 1:0];
+wire [M + N - 1:0] multi1_shift [N - 1:0];
 
 multiplier_step step_0 (
     .clk(clk),
@@ -67,11 +67,11 @@ multiplier_step step_0 (
 
 genvar i;
 generate
-    for (i = 1; i <= M - 1; i = i + 1) begin : multi_block
+    for (i = 1; i <= N - 1; i = i + 1) begin : multi_block
         multiplier_step step_i(
             .clk(clk),
             .multi1(multi1_shift[i - 1]),
-            .multi2(i < N ? us_multi2[i] : 1'b0),
+            .multi2(us_multi2[i]),
             .accu_last(accu[i - 1]),
 
             .multi1_shift(multi1_shift[i]),
@@ -80,6 +80,6 @@ generate
     end
 endgenerate
 
-assign product = sign ? {sign, ~accu[M - 1] + 1'b1} : {sign, accu[M - 1]};
+assign product = sign ? {sign, ~accu[N - 1] + 1'b1} : {sign, accu[N - 1]};
 
 endmodule
