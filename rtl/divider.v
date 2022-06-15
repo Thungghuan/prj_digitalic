@@ -4,8 +4,8 @@ module divider(
     dividend,
     divisor,
 
-    divider_ok,
-    quotient
+    quotient,
+    divider_ok
 );
 
 parameter M = 26; // bit number of dividend
