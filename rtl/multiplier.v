@@ -20,11 +20,17 @@ output reg [M + NS - 1:0] product;
 wire sign;
 assign sign = multi2[NS - 1];
 
+reg mul_en;
+
 wire [N - 1:0] us_multi2 = sign ? ~multi2[N - 1:0] + 1'b1 : multi2[N - 1:0];
+
+always @(posedge clk) begin
+    mul_en <= en;
+end
 
 reg [3:0] count;
 always @(posedge clk) begin
-    if (!en)
+    if (!mul_en)
         count <= 0;
     else if (count == N)
         count <= 0;
@@ -35,23 +41,28 @@ end
 reg [M + N - 1:0] multi1_t;
 reg multi2_t;
 reg [M + N - 1:0] product_t;
+reg multiplier_ok;
 
 always @(posedge clk) begin
-    if (!en) begin
+    if (!mul_en) begin
         multi1_t <= {{N{1'b0}}, multi1};
         multi2_t <= us_multi2[0];
         product_t <= {(M + N){1'b0}};
-    end
-    else if (count == N) begin
-        // product <= product_t;
-        product <= sign ? {sign, ~product_t + 1'b1} : {sign, product_t};
+        multiplier_ok <= 0;
     end
     else begin
-        multi1_t <= multi1_t << 1;
-        multi2_t <= us_multi2[1 + count];
-        if (multi2_t)
-            product_t <= product_t + multi1_t; 
+        if (count == N && !multiplier_ok) begin
+            product <= sign ? {sign, ~product_t + 1'b1} : {sign, product_t};
+            multiplier_ok <= 1;
+        end
+        else begin
+            multi1_t <= multi1_t << 1;
+            multi2_t <= us_multi2[1 + count];
+            if (multi2_t)
+                product_t <= product_t + multi1_t; 
+        end
     end
+    
 end
 
 endmodule

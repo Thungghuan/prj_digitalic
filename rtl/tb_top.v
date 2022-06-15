@@ -45,7 +45,7 @@ begin
     b = 12'b0000_0010_0000;
     c = 12'b0000_1010_0101;
 
-    $dumpfile("./output/wave.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
+    $dumpfile("./output/wave_top.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
 	$dumpvars(0, tb_top);
     #10000 $finish;
 end

@@ -26,7 +26,7 @@ initial begin
 end
 
 initial begin
-    $dumpfile("./output/wave.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
+    $dumpfile("./output/wave_mul.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
 	$dumpvars(0, tb_multiplier);
     #10000 $finish;
 end

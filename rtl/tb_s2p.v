@@ -28,12 +28,20 @@ always begin
     dext = 1 ; #3 ;
 end
 
+reg en;
 wire [bit - 1:0] dout;
 
-s2p m(.clk(clk), .dext(dext), .dout(dout));
+s2p m(.clk(clk), .en(en), .dext(dext), .dout(dout));
 
 initial begin
-    $dumpfile("./output/wave.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
+    en = 1'b0;
+    #8;
+    en = 1'b1;
+end
+
+
+initial begin
+    $dumpfile("./output/wave_s2p.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
 	$dumpvars(0, tb_s2p);
     #10000 $finish;
 end

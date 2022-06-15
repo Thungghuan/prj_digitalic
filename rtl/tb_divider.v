@@ -30,7 +30,7 @@ initial begin
 end
 
 initial begin
-    $dumpfile("./output/wave.vcd");
+    $dumpfile("./output/wave_div.vcd");
 	$dumpvars(0, tb_divider);
     #10000 $finish;
 end

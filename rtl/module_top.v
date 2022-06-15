@@ -22,37 +22,44 @@ wire [25:0] dividend = {a, {14{1'b0}}};
 wire [13:0] divisor;
 assign divisor = a + b + c;
 
-reg en1;
+reg en;
 wire divider_ok;
 
 initial begin
-    en1 = 1'b0;
+    en = 1'b0;
     #8;
-    en1 = 1'b1;
+    en = 1'b1;
 end
 
 wire [25:0] out1;
 divider mod_div(
     .clk(clk),
-    .en(en1),
+    .en(en),
     .dividend(dividend),
     .divisor(divisor),
+
     .quotient(out1),
     .divider_ok(divider_ok)
 );
 
 wire [9:0] d;
-s2p mod_s2p(.clk(clk), .dext(e), .dout(d));
+s2p mod_s2p(.clk(clk), .en(en), .dext(e), .dout(d));
 
 wire [13:0] out2;
 sin mod_sin(.sin_in(d), .sin_out(out2));
 
+reg mul_en = 1'b0;
+always @(posedge divider_ok) begin
+    mul_en <= 1'b1;
+end
+
 wire [39:0] out;
 multiplier mod_mul(
     .clk(clk),
-    .en(divider_ok),
+    .en(mul_en),
     .multi1(out1),
     .multi2(out2),
+
     .product(out)
 );
 

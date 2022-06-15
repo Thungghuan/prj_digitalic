@@ -5,5 +5,20 @@ rtl/s2p.v \
 rtl/sin.v \
 rtl/multiplier.v \
 rtl/tb_top.v
+vvp -n output/a.out
 
+
+iverilog -o ./output/a.out \
+rtl/divider.v \
+rtl/tb_divider.v
+vvp -n output/a.out
+
+iverilog -o ./output/a.out \
+rtl/s2p.v \
+rtl/tb_s2p.v
+vvp -n output/a.out
+
+iverilog -o ./output/a.out \
+rtl/multiplier.v \
+rtl/tb_multiplier.v
 vvp -n output/a.out
