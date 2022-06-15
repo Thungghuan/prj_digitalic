@@ -17,10 +17,11 @@ reg [13:0] b = 14'b00_1011_0100_1011;
 wire [M - 1:0] dividend = {a, {14{1'b0}}};
 wire [N - 1:0] divisor = b;
 wire [M - 1:0] quotient;
+wire divider_ok;
 
 reg en = 1'b0;
 
-divider d (.clk(clk), .en(en), .dividend(dividend), .divisor(divisor), .quotient(quotient));
+divider d (.clk(clk), .en(en), .dividend(dividend), .divisor(divisor), .quotient(quotient), .divider_ok(divider_ok));
 
 initial begin
     en = 1'b0;

@@ -3,6 +3,8 @@ module divider(
     en,
     dividend,
     divisor,
+
+    divider_ok,
     quotient
 );
 
@@ -12,7 +14,9 @@ parameter N = 14; // bit number of divisor
 input clk, en;
 input [M - 1:0] dividend;
 input [N - 1:0] divisor;
+
 output reg [M - 1:0] quotient;
+output reg divider_ok;
 
 reg [N:0] dividend_t;
 reg [M - 1:0] quotient_t;
@@ -30,11 +34,16 @@ end
 
 always @(posedge clk) begin
     if (!en) begin
+        quotient <= 1'b0;
+        divider_ok <= 1'b0;
+
         quotient_t <= {(M - 1){1'b0}};
         dividend_t <= {{N{1'b0}}, dividend[M - 1]};
     end
     else if (count == M) begin
         quotient <= quotient_t;
+        divider_ok <= 1'b1;
+
         quotient_t <= {(M - 1){1'b0}};
         dividend_t <= {{N{1'b0}}, dividend[M - 1]};
     end
