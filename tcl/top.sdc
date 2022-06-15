@@ -4,16 +4,16 @@
 #	
 #######################################################################
 
-create_clock -name  {clk}    -period 10 -waveform {0 5} [get_ports clk]
+create_clock -name  {clk}    -period 5 -waveform {0 2.5} [get_ports clk]
 
 ########################################################################
 ##
 ##			Set Clock Latency
 ##	
 ########################################################################
-set_clock_uncertainty -setup 1 [get_clocks clk]
-set_clock_uncertainty -hold 1 [get_clocks clk]
-set_propagated_clock clk
+set_clock_uncertainty -setup 0.5 [get_clocks clk]
+set_clock_uncertainty -hold 0.5 [get_clocks clk]
+#set_propagated_clock clk
 
 #set_load [expr 0.005] [all_outputs]
 
@@ -22,7 +22,7 @@ set_propagated_clock clk
 ##			Set Input Delay
 ##	
 ########################################################################
-set_input_delay  -clock [get_clocks clk]  -max 5  [get_ports dext]
+set_input_delay  -clock [get_clocks clk]  -max 2.5  [get_ports dext]
 
 
 
@@ -40,8 +40,8 @@ set_max_fanout 4 [get_ports clk]
 #set_max_capacitance 0.1 [current_design]
 #set_max_capacitance 0.1 [current_design]
 
-#set_fix_hold clk
-set_min_delay 2 -from [get_pins ins_delaycell/a] -to [get_pins ins_delaycell/y]
+set_fix_hold clk
+set_min_delay 0 -from [get_pins ins_delaycell/a] -to [get_pins ins_delaycell/y]
 
 ########################################################################
 ##	

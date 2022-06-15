@@ -1,12 +1,12 @@
-module s2p(clk, din, dout);
+module s2p(clk, dext, dout);
 
 parameter bit = 10;
 
-input clk, din;
+input clk, dext;
 output reg [bit - 1:0] dout;
 
 reg [bit - 1:0] q;
-wire din;
+wire dext;
 
 reg en;
 // reg [3:0] count;
@@ -24,7 +24,7 @@ always @ (posedge clk) begin
 end
 
 always @ (posedge clk)
-    q <= {din, q[bit - 1:1]};
+    q <= {dext, q[bit - 1:1]};
 
 always @ (q)
     begin

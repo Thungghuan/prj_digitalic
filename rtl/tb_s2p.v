@@ -2,7 +2,7 @@ module tb_s2p;
 
 parameter bit = 10;
 
-reg clk, din;
+reg clk, dext;
 
 //clock
 always begin
@@ -11,26 +11,26 @@ always begin
 end
 
 always begin
-    din = 0 ; #3 ;
-    din = 1 ; #7 ;
-    din = 1 ; #3 ;
-    din = 0 ; #7 ;
-    din = 0 ; #3 ;
-    din = 1 ; #7 ;
-    din = 1 ; #3 ;
-    din = 0 ; #7 ;
-    din = 1 ; #3 ;
-    din = 1 ; #7 ;
-    din = 0 ; #3 ;
-    din = 1 ; #7 ;
-    din = 0 ; #3 ;
-    din = 1 ; #7 ;
-    din = 1 ; #3 ;
+    dext = 0 ; #3 ;
+    dext = 1 ; #7 ;
+    dext = 1 ; #3 ;
+    dext = 0 ; #7 ;
+    dext = 0 ; #3 ;
+    dext = 1 ; #7 ;
+    dext = 1 ; #3 ;
+    dext = 0 ; #7 ;
+    dext = 1 ; #3 ;
+    dext = 1 ; #7 ;
+    dext = 0 ; #3 ;
+    dext = 1 ; #7 ;
+    dext = 0 ; #3 ;
+    dext = 1 ; #7 ;
+    dext = 1 ; #3 ;
 end
 
 wire [bit - 1:0] dout;
 
-s2p m(.clk(clk), .din(din), .dout(dout));
+s2p m(.clk(clk), .dext(dext), .dout(dout));
 
 initial begin
     $dumpfile("./output/wave.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件

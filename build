@@ -1,2 +1,9 @@
-iverilog -o ./output/a.out rtl/s2p.v rtl/tb_s2p.v
+iverilog -o ./output/a.out \
+rtl/module_top.v \
+rtl/divider.v \
+rtl/s2p.v \
+rtl/sin.v \
+rtl/multiplier.v \
+rtl/tb_top.v
+
 vvp -n output/a.out
