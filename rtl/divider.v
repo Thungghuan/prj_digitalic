@@ -22,9 +22,8 @@ reg [4:0] count;
 always @(posedge clk) begin
     if (!en)
         count <= 0;
-    else if (count == M) begin
+    else if (count == M)
         count <= 0;
-    end
     else
         count <= count + 1'b1; 
 end

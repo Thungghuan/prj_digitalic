@@ -1,36 +1,6 @@
-module multiplier_step(
-    clk,
-    multi1,
-    multi2,
-    accu_last,
-
-    multi1_shift,
-    accu
-);
-
-parameter M = 26;
-parameter N = 13;
-
-input clk;
-input [M + N- 1:0] multi1;
-input multi2;
-input [M + N - 1:0] accu_last;
-
-output reg [M + N - 1:0] multi1_shift;
-output reg [M + N - 1:0] accu;
-
-always @(posedge clk) begin
-    multi1_shift <= multi1 << 1;
-    if (multi2)
-        accu <= accu_last + multi1;
-    else
-        accu <= accu_last;
-end
-
-endmodule
-
 module multiplier(
     clk,
+    en,
     multi1,
     multi2,
 
@@ -41,45 +11,47 @@ parameter M = 26; // bit numbers of output of the divider (unsingned)
 parameter NS = 14; // bit numbers of output of the sin (signed)
 parameter N = NS - 1;  // bit numbers of output of the sin (unsigned)
 
-input clk;
+input clk, en;
 input [M - 1:0] multi1;
 input [NS - 1:0] multi2;
 
-output [M + NS - 1:0] product;
+output reg [M + NS - 1:0] product;
 
 wire sign;
 assign sign = multi2[NS - 1];
 
 wire [N - 1:0] us_multi2 = sign ? ~multi2[N - 1:0] + 1'b1 : multi2[N - 1:0];
 
-wire [M + N - 1:0] accu [N - 1:0];
-wire [M + N - 1:0] multi1_shift [N - 1:0];
+reg [3:0] count;
+always @(posedge clk) begin
+    if (!en)
+        count <= 0;
+    else if (count == N)
+        count <= 0;
+    else
+        count <= count + 1'b1;
+end
 
-multiplier_step step_0 (
-    .clk(clk),
-    .multi1({{N{1'b0}}, multi1}),
-    .multi2(us_multi2[0]),
-    .accu_last({(M + N){1'b0}}),
+reg [M + N - 1:0] multi1_t;
+reg multi2_t;
+reg [M + N - 1:0] product_t;
 
-    .multi1_shift(multi1_shift[0]),
-    .accu(accu[0])
-);
-
-genvar i;
-generate
-    for (i = 1; i <= N - 1; i = i + 1) begin : multi_block
-        multiplier_step step_i(
-            .clk(clk),
-            .multi1(multi1_shift[i - 1]),
-            .multi2(us_multi2[i]),
-            .accu_last(accu[i - 1]),
-
-            .multi1_shift(multi1_shift[i]),
-            .accu(accu[i])
-        );
+always @(posedge clk) begin
+    if (!en) begin
+        multi1_t <= {{N{1'b0}}, multi1};
+        multi2_t <= us_multi2[0];
+        product_t <= {(M + N){1'b0}};
     end
-endgenerate
-
-assign product = sign ? {sign, ~accu[N - 1] + 1'b1} : {sign, accu[N - 1]};
+    else if (count == N) begin
+        // product <= product_t;
+        product <= sign ? {sign, ~product_t + 1'b1} : {sign, product_t};
+    end
+    else begin
+        multi1_t <= multi1_t << 1;
+        multi2_t <= us_multi2[1 + count];
+        if (multi2_t)
+            product_t <= product_t + multi1_t; 
+    end
+end
 
 endmodule
