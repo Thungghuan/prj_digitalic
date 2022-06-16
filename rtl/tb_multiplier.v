@@ -1,7 +1,7 @@
 module tb_multiplier;
 
 parameter M = 26;
-parameter N = 14;
+parameter N = 13;
 
 reg clk;
 
@@ -12,7 +12,7 @@ always begin
 end
 
 reg [M - 1:0] multi1 = 26'b00_0000_0101_0000_1010_0000_0001;
-reg [N - 1:0] multi2 = 14'b11_0000_0010_0100;
+reg [N - 1:0] multi2 = 13'b1_0000_0010_0100;
 wire [M + N - 1:0] product;
 
 reg en = 1'b0;

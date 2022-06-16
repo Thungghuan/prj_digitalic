@@ -3,7 +3,7 @@ module tb_top;
 reg clk, e;
 reg [11:0] a, b, c;
 
-wire [39:0] y;
+wire [13:0] y;
 
 //clock
 always begin
@@ -15,8 +15,8 @@ always begin
     e = 0 ; #3 ;
     e = 1 ; #7 ;
     e = 1 ; #3 ;
-    e = 0 ; #7 ;
-    e = 0 ; #3 ;
+    e = 1 ; #7 ;
+    e = 1 ; #3 ;
     e = 1 ; #7 ;
     e = 1 ; #3 ;
     e = 0 ; #7 ;
