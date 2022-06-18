@@ -41,9 +41,9 @@ module_top top(
 
 initial
 begin
-    a = 12'b0111_0110_1100;
-    b = 12'b0000_0010_0000;
-    c = 12'b0000_1010_0101;
+    a = 12'b1101_1111_1100;
+    b = 12'b0101_1011_0100;
+    c = 12'b0000_1110_0111;
 
     $dumpfile("./output/wave_top.vcd");  // 指定VCD文件的名字为wave.vcd，仿真信息将记录到此文件
 	$dumpvars(0, tb_top);

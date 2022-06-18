@@ -20,4 +20,4 @@ out = out1 * out2
 # print(out2 * (2 ** 12))
 print(out)
 
-print("{:0>13b}".format(int(abs(out) * (2 ** 13))))
+print("{:0>11b}".format(int(abs(out) * (2 ** 11))))

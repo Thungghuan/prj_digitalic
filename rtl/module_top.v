@@ -24,7 +24,7 @@ always @(posedge clk) begin
     c_in <= c;
 end
 
-output reg [13:0] y;
+output reg [11:0] y;
 
 wire [25:0] dividend = {a_in, {14{1'b0}}};
 wire [13:0] divisor;
@@ -72,7 +72,7 @@ multiplier mod_mul(
     .product(out)
 );
 
-wire [13:0] y_out;
+wire [11:0] y_out;
 assign y_out = sign ? {sign, ~out[25:15] + 1'b1} : {sign, out[25:15]};
 
 always @(posedge clk) begin

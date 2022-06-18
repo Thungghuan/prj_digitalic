@@ -23,7 +23,7 @@ reg [M - 1:0] quotient_t;
 
 reg [4:0] count;
 
-always @(posedge clk or posedge en) begin
+always @(posedge clk) begin
     if (!en) begin
         quotient = 1'b0;
         divider_ok = 1'b0;
@@ -34,7 +34,7 @@ always @(posedge clk or posedge en) begin
         count = 0;
     end
     else if(!divider_ok) begin
-        if (count == M + 1) begin
+        if (count == M) begin
             quotient = quotient_t;
             divider_ok = 1'b1;
 
@@ -50,46 +50,37 @@ always @(posedge clk or posedge en) begin
             count = count + 1;
             if (dividend_t >= {1'b0, divisor}) begin
                 quotient_t = {quotient_t[M - 2:0], 1'b1};
-                dividend_t = {dividend_t - {1'b0, divisor}, dividend[M - count]};
+                dividend_t = {dividend_t - {1'b0, divisor}, dividend[M - count - 1]};
             end
             else begin
                 quotient_t = {quotient_t[M - 2:0], 1'b0};
-                dividend_t = {dividend_t[N - 1:0], dividend[M - count]};
+                dividend_t = {dividend_t[N - 1:0], dividend[M - count - 1]};
             end
         end
-    end
 
-    if (!en) begin
-        quotient = 1'b0;
-        divider_ok = 1'b0;
+        if(!divider_ok) begin
+            if (count == M) begin
+                quotient = quotient_t;
+                divider_ok = 1'b1;
 
-        quotient_t = {(M - 1){1'b0}};
-        dividend_t = {{N{1'b0}}, dividend[M - 1]};
-
-        count = 0;
-    end
-    else if(!divider_ok) begin
-        if (count == M + 1) begin
-            quotient = quotient_t;
-            divider_ok = 1'b1;
-
-            quotient_t = {(M - 1){1'b0}};
-            dividend_t = {{N{1'b0}}, dividend[M - 1]};
-
-            count = 0;
-        end
-        else begin
-            if (count == 0)
+                quotient_t = {(M - 1){1'b0}};
                 dividend_t = {{N{1'b0}}, dividend[M - 1]};
 
-            count = count + 1;
-            if (dividend_t >= {1'b0, divisor}) begin
-                quotient_t = {quotient_t[M - 2:0], 1'b1};
-                dividend_t = {dividend_t - {1'b0, divisor}, dividend[M - count]};
+                count = 0;
             end
             else begin
-                quotient_t = {quotient_t[M - 2:0], 1'b0};
-                dividend_t = {dividend_t[N - 1:0], dividend[M - count]};
+                if (count == 0)
+                    dividend_t = {{N{1'b0}}, dividend[M - 1]};
+
+                count = count + 1;
+                if (dividend_t >= {1'b0, divisor}) begin
+                    quotient_t = {quotient_t[M - 2:0], 1'b1};
+                    dividend_t = {dividend_t - {1'b0, divisor}, dividend[M - count - 1]};
+                end
+                else begin
+                    quotient_t = {quotient_t[M - 2:0], 1'b0};
+                    dividend_t = {dividend_t[N - 1:0], dividend[M - count - 1]};
+                end
             end
         end
     end
