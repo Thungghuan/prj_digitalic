@@ -55,8 +55,7 @@ always @(posedge clk) begin
             if (multi2_t)
                 product_t <= product_t + multi1_t; 
         end
-    end
-    
+    end 
 end
 
 endmodule

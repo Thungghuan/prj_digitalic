@@ -73,7 +73,7 @@ multiplier mod_mul(
 );
 
 wire [13:0] y_out;
-assign y_out = sign ? {sign, ~out[12:0] + 1'b1} : {sign, out[12:0]};
+assign y_out = sign ? {sign, ~out[26:14] + 1'b1} : {sign, out[26:14]};
 
 always @(posedge clk) begin
     y = y_out;
