@@ -15,11 +15,20 @@ input [11:0] b;
 input [11:0] c;
 input e;
 
-output [13:0] y;
+reg [11:0] a_in;
+reg [11:0] b_in;
+reg [11:0] c_in;
+always @(posedge clk) begin
+    a_in <= a;
+    b_in <= b;
+    c_in <= c;
+end
 
-wire [25:0] dividend = {a, {14{1'b0}}};
+output reg [13:0] y;
+
+wire [25:0] dividend = {a_in, {14{1'b0}}};
 wire [13:0] divisor;
-assign divisor = a + b + c;
+assign divisor = a_in + b_in + c_in;
 
 reg en;
 wire divider_ok;
@@ -63,7 +72,13 @@ multiplier mod_mul(
     .product(out)
 );
 
-assign y = sign ? {sign, ~out[12:0] + 1'b1} : {sign, out[12:0]};
+wire [13:0] y_out;
+assign y_out = sign ? {sign, ~out[12:0] + 1'b1} : {sign, out[12:0]};
+
+always @(posedge clk) begin
+    y = y_out;
+end
+
 
 endmodule
 

@@ -23,7 +23,7 @@ always @ (posedge clk) begin
     if (!en) begin
         q <= 0;
         count <= 0;
-        s2p_ok <= 0; 
+        s2p_ok <= 0;
         dout <= 0;
     end
     else begin
