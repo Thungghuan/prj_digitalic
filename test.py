@@ -3,10 +3,10 @@
 import math
 
 a = 1900
-b = 32
-c = 165
+b = 1577
+c = 193
 
-d = 1022
+d = 692
 
 out1 = a / (a + b + c)
 out2 = math.sin(2 * math.pi * d / 1024)
