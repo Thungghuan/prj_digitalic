@@ -15,6 +15,11 @@ input [11:0] b;
 input [11:0] c;
 input e;
 
+output reg [11:0] y;
+
+wire en;
+assign en = a || b || c;
+
 reg [11:0] a_in;
 reg [11:0] b_in;
 reg [11:0] c_in;
@@ -24,20 +29,10 @@ always @(posedge clk) begin
     c_in <= c;
 end
 
-output reg [11:0] y;
-
 wire [25:0] dividend = {a_in, {14{1'b0}}};
 wire [13:0] divisor;
 assign divisor = a_in + b_in + c_in;
-
-reg en;
 wire divider_ok;
-
-initial begin
-    en = 1'b0;
-    #8;
-    en = 1'b1;
-end
 
 wire [25:0] out1;
 divider mod_div(
