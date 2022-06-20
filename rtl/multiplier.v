@@ -4,7 +4,8 @@ module multiplier(
     multi1,
     multi2,
 
-    product
+    product,
+    multiplier_ok
 );
 
 parameter M = 26; // bit numbers of output of the divider (unsingned)
@@ -15,6 +16,7 @@ input [M - 1:0] multi1;
 input [N - 1:0] multi2;
 
 output reg [M + N - 1:0] product;
+output reg multiplier_ok;
 
 reg mul_en;
 
@@ -35,7 +37,6 @@ end
 reg [M + N - 1:0] multi1_t;
 reg multi2_t;
 reg [M + N - 1:0] product_t;
-reg multiplier_ok;
 
 always @(posedge clk) begin
     if (!mul_en) begin

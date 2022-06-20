@@ -6,7 +6,7 @@ a = 3580
 b = 1460
 c = 231
 
-d = 494
+d = 754
 
 out1 = a / (a + b + c)
 out2 = math.sin(2 * math.pi * d / 1024)

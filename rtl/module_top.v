@@ -48,9 +48,9 @@ divider mod_div(
 wire [9:0] d;
 s2p mod_s2p(.clk(clk), .en(en), .dext(e), .dout(d));
 
-wire sign;
+wire sign_t;
 wire [12:0] out2;
-sin mod_sin(.sin_in(d), .sin_out(out2), .sign(sign));
+sin mod_sin(.sin_in(d), .sin_out(out2), .sign(sign_t));
 
 reg mul_en;
 always @(posedge clk) begin
@@ -60,6 +60,7 @@ always @(posedge clk) begin
         mul_en <= 1'b0;
 end
 
+wire mul_ok;
 wire [38:0] out;
 multiplier mod_mul(
     .clk(clk),
@@ -67,8 +68,14 @@ multiplier mod_mul(
     .multi1(out1),
     .multi2(out2),
 
-    .product(out)
+    .product(out),
+    .multiplier_ok(mul_ok)
 );
+
+reg sign;
+always @(posedge mul_ok) begin
+    sign <= sign_t;
+end
 
 wire [11:0] y_out;
 assign y_out = sign ? {sign, ~out[25:15] + 1'b1} : {sign, out[25:15]};
