@@ -2,11 +2,11 @@
 
 import math
 
-a = 1900
-b = 1577
-c = 193
+a = 3580
+b = 1460
+c = 231
 
-d = 172
+d = 494
 
 out1 = a / (a + b + c)
 out2 = math.sin(2 * math.pi * d / 1024)

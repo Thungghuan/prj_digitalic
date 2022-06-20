@@ -52,9 +52,12 @@ wire sign;
 wire [12:0] out2;
 sin mod_sin(.sin_in(d), .sin_out(out2), .sign(sign));
 
-reg mul_en = 1'b0;
-always @(posedge divider_ok) begin
-    mul_en <= 1'b1;
+reg mul_en;
+always @(posedge clk) begin
+    if (divider_ok)
+        mul_en <= 1'b1;
+    else
+        mul_en <= 1'b0;
 end
 
 wire [38:0] out;
